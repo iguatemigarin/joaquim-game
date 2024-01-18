@@ -1,12 +1,14 @@
-import { canvas, ctx } from './render/canvas.ts'
-import { Vector } from './math.ts'
-import { Renderable } from './render/renderable.ts'
+import { canvas, ctx } from './render/canvas'
+import { Vector } from './math'
+import { Renderable } from './render/renderable'
+import { Ball } from './ball'
 
 const parts = 100
 const ratio = 16 / 9
 
 export class Stage implements Renderable {
-  unit: number = 1
+  xUnit: number = 1
+  yUnit: number = 1
   width: number = canvas.width
   height: number = canvas.height
   origin: Vector = new Vector()
@@ -14,7 +16,21 @@ export class Stage implements Renderable {
   constructor(
     public id: string,
     public children: Renderable[] = [],
-  ) {}
+  ) {
+    canvas.addEventListener('click', (e) => {
+      const rect = canvas.getBoundingClientRect()
+      const x = e.clientX - rect.left
+      const y = e.clientY - rect.top
+      const { x: sx, y: sy } = this.screenToStage(x, y)
+
+      this.addChild(
+        new Ball('ball one', 1, 'blue', {
+          center: new Vector(sx, sy),
+        }),
+      )
+      console.log(sx, sy)
+    })
+  }
 
   render() {
     this.updateOrigin()
@@ -25,7 +41,8 @@ export class Stage implements Renderable {
   }
 
   updateUnitsScale() {
-    this.unit = this.width / parts
+    this.xUnit = this.width / parts
+    this.yUnit = this.height / parts
   }
 
   updateDimentions() {
@@ -57,5 +74,12 @@ export class Stage implements Renderable {
 
   addChild(child: Renderable) {
     this.children.push(child)
+  }
+
+  screenToStage(x: number, y: number) {
+    return {
+      x: ((x - this.origin.x) / this.width) * parts,
+      y: ((y - this.origin.y) / this.height) * parts,
+    }
   }
 }

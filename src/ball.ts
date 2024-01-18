@@ -23,9 +23,9 @@ export class Ball implements Renderable {
     ctx.translate(stage.origin.x, stage.origin.y)
     ctx.beginPath()
     ctx.arc(
-      this.physics.center.x * stage.unit,
-      this.physics.center.y * stage.unit,
-      this.radius * stage.unit,
+      this.physics.center.x * stage.xUnit,
+      this.physics.center.y * stage.yUnit,
+      this.radius * stage.xUnit,
       0,
       360,
     )
