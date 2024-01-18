@@ -1,4 +1,3 @@
-import { Stage } from '../stage'
 import { Renderable } from './renderable'
 import { ctx } from './canvas'
 
@@ -8,12 +7,13 @@ class RenderTree {
     public children: Renderable[] = [],
   ) {}
 
-  render(stage?: Stage) {
+  render() {
     const max = this.children.length
     for (let i = 0; i < max; i = i + 1) {
       ctx.translate(0, 0)
       ctx.fillStyle = 'black'
-      this.children[i].render(stage)
+      this.children[i].loop()
+      this.children[i].render()
     }
   }
 }

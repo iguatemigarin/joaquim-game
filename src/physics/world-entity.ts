@@ -24,5 +24,6 @@ export class WorldEntity {
   update() {
     this.velocity.add(this.acceleration)
     this.center.add(this.velocity)
+    console.log('Updating physics')
   }
 }

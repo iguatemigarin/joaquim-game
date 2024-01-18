@@ -3,14 +3,16 @@ import { Renderable } from '../render/renderable.ts'
 
 const UPDATE_FREQUENCY = 2 // in Hz
 
-export class FPS implements Renderable {
+export class FPS extends Renderable {
   tick: number = Date.now()
   now: number = Date.now()
   msSinceLastCount: number = 0
   framesInS: number = 0
   text: string = ''
 
-  constructor(public id: string) {}
+  constructor(public id: string) {
+    super(id)
+  }
 
   render() {
     this.updateNow()

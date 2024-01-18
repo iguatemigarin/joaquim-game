@@ -4,6 +4,7 @@ export class Vector {
     public y: number = 0,
   ) {}
   add(vector: Vector) {
-    return new Vector(this.x + vector.x, this.y + vector.y)
+    this.x = this.x + vector.x
+    this.y = this.y + vector.y
   }
 }

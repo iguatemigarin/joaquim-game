@@ -2,8 +2,9 @@ import { ctx } from './render/canvas'
 import { Renderable } from './render/renderable'
 import { Stage } from './stage'
 import { WorldEntity, WorldEntityOptions } from './physics/world-entity'
+import { Vector } from './math'
 
-export class Ball implements Renderable {
+export class Ball extends Renderable {
   children: Renderable[]
   physics: WorldEntity
 
@@ -13,9 +14,14 @@ export class Ball implements Renderable {
     public color: string = 'red',
     physics?: WorldEntityOptions,
   ) {
-    this.id = id + '-ball'
+    const thisId = id + '-ball'
+    super(thisId)
+    this.id = thisId
     this.physics = new WorldEntity(this.id, {
       ...physics,
+      mass: 1,
+      velocity: new Vector(0, 0),
+      acceleration: new Vector(0, 0.01),
     })
   }
 

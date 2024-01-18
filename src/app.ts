@@ -3,15 +3,8 @@ import { FPS } from './debug/fps'
 import { loop } from './render/loop'
 import { Stage } from './stage'
 import { renderTree } from './render/render-tree'
-import { Ball } from './ball'
-import { Vector } from './math'
 
 const stage = new Stage('main stage')
-stage.addChild(
-  new Ball('ball one', 10, 'blue', {
-    center: new Vector(10, 20),
-  }),
-)
 
 const fps = new FPS('fps')
 

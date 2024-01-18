@@ -6,7 +6,7 @@ import { Ball } from './ball'
 const parts = 100
 const ratio = 16 / 9
 
-export class Stage implements Renderable {
+export class Stage extends Renderable {
   xUnit: number = 1
   yUnit: number = 1
   width: number = canvas.width
@@ -17,6 +17,7 @@ export class Stage implements Renderable {
     public id: string,
     public children: Renderable[] = [],
   ) {
+    super(id)
     canvas.addEventListener('click', (e) => {
       const rect = canvas.getBoundingClientRect()
       const x = e.clientX - rect.left
