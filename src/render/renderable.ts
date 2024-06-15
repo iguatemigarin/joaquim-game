@@ -27,7 +27,7 @@ export abstract class Renderable {
 
   destroy() {
     if (!this.parent) {
-      throw new Error('Cannot destroy rendenralbe without parent')
+      throw new Error('Cannot destroy renderable without parent')
       return
     }
 

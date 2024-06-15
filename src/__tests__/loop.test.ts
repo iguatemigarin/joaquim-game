@@ -15,7 +15,10 @@ jest.mock('../render/render-tree', () => ({
 describe('loop', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    jest.spyOn(global, 'requestAnimationFrame').mockImplementation((cb) => cb());
+    jest.spyOn(global, 'requestAnimationFrame').mockImplementation((cb) => {
+      setTimeout(() => cb(0), 0);
+      return 0;
+    });
   });
 
   it('should call resetCanvas and renderTree.render if more than 1ms has passed', () => {
