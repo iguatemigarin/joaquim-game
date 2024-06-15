@@ -1,4 +1,4 @@
-import { WorldEntity } from '../physics/world-entity.ts'
+import { WorldEntity } from '../physics/world-entity'
 
 export abstract class Renderable {
   id: string
