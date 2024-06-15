@@ -21,9 +21,14 @@ export class WorldEntity {
     this.velocity = options.velocity || new Vector()
     this.acceleration = options.acceleration || new Vector()
   }
-  update() {
-    this.velocity.add(this.acceleration)
+  update(timePassed: number) {
+    const deltaAcceleration = new Vector(
+      this.acceleration.x,
+      this.acceleration.y,
+    )
+    deltaAcceleration.multiply(timePassed)
+
+    this.velocity.add(deltaAcceleration)
     this.center.add(this.velocity)
-    console.log('Updating physics')
   }
 }

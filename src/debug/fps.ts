@@ -4,14 +4,16 @@ import { Renderable } from '../render/renderable.ts'
 const UPDATE_FREQUENCY = 2 // in Hz
 
 export class FPS extends Renderable {
-  tick: number = Date.now()
+  tock: number = Date.now()
   now: number = Date.now()
   msSinceLastCount: number = 0
   framesInS: number = 0
   text: string = ''
 
-  constructor(public id: string) {
-    super(id)
+  init() {}
+
+  loop(timePassed: number) {
+    this.render()
   }
 
   render() {
@@ -32,11 +34,11 @@ export class FPS extends Renderable {
   }
 
   updateMsSinceLastCount() {
-    this.msSinceLastCount += this.now - this.tick
+    this.msSinceLastCount += this.now - this.tock
   }
 
   updateTick() {
-    this.tick = this.now
+    this.tock = this.now
   }
 
   shouldResetFPSCounter() {

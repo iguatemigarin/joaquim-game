@@ -13,32 +13,32 @@ export class Stage extends Renderable {
   height: number = canvas.height
   origin: Vector = new Vector()
 
-  constructor(
-    public id: string,
-    public children: Renderable[] = [],
-  ) {
-    super(id)
+  constructor() {
+    super('stage')
+
     canvas.addEventListener('click', (e) => {
       const rect = canvas.getBoundingClientRect()
       const x = e.clientX - rect.left
       const y = e.clientY - rect.top
       const { x: sx, y: sy } = this.screenToStage(x, y)
 
-      this.addChild(
-        new Ball('ball one', 1, 'blue', {
-          center: new Vector(sx, sy),
-        }),
-      )
-      console.log(sx, sy)
+      const ball = new Ball(this, 'ball one', 1, 'blue', {
+        center: new Vector(sx, sy),
+      })
+
+      this.children.push(ball)
     })
   }
 
-  render() {
+  loop(): void {
     this.updateOrigin()
     this.updateDimentions()
     this.updateUnitsScale()
+    this.render()
+  }
+
+  render() {
     this.drawRect()
-    this.children.forEach((r) => r.render(this))
   }
 
   updateUnitsScale() {
@@ -71,10 +71,6 @@ export class Stage extends Renderable {
     ctx.strokeRect(0, 0, this.width, this.height)
 
     ctx.setTransform(1, 0, 0, 1, 0, 0)
-  }
-
-  addChild(child: Renderable) {
-    this.children.push(child)
   }
 
   screenToStage(x: number, y: number) {

@@ -1,28 +1,38 @@
 import { WorldEntity } from '../physics/world-entity.ts'
-import { Stage } from '../stage.ts'
 
-interface IRenderable {
+export abstract class Renderable {
   id: string
+  children: Renderable[]
+  parent?: Renderable
   physics?: WorldEntity
-  render(stage?: Stage): void
-  children?: Renderable[]
-}
 
-export abstract class Renderable implements IRenderable {
-  constructor(
-    public id: string,
-    public physics?: WorldEntity,
-    public children?: Renderable[],
-  ) {}
-  abstract render(stage?: Stage): void
-  loop() {
-    if (this.physics) {
-      this.physics.update()
-    }
+  constructor(id: string, parent?: Renderable, physics?: WorldEntity) {
+    this.id = id
+    this.parent = parent
+    this.children = []
+    this.physics = physics
+  }
+  abstract render(): void
+  abstract loop(timePassed: number): void
+
+  tick(timePassed: number) {
+    this.loop(timePassed)
+
     if (this.children) {
       this.children.forEach((child) => {
-        child.loop()
+        child.tick(timePassed)
       })
     }
+  }
+
+  destroy() {
+    if (!this.parent) {
+      throw new Error('Cannot destroy rendenralbe without parent')
+      return
+    }
+
+    this.parent.children = this.parent.children.filter(
+      (child) => child !== this,
+    )
   }
 }

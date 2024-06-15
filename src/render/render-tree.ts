@@ -7,14 +7,13 @@ class RenderTree {
     public children: Renderable[] = [],
   ) {}
 
-  render() {
-    const max = this.children.length
-    for (let i = 0; i < max; i = i + 1) {
+  render(timePassed: number) {
+    this.children.forEach((child) => {
       ctx.translate(0, 0)
       ctx.fillStyle = 'black'
-      this.children[i].loop()
-      this.children[i].render()
-    }
+      child.tick(timePassed)
+    })
   }
 }
+
 export const renderTree = new RenderTree('Root renderTree')

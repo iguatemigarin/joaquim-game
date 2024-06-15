@@ -9,29 +9,39 @@ export class Ball extends Renderable {
   physics: WorldEntity
 
   constructor(
+    private stage: Stage,
     public id: string,
     public radius: number = 1,
     public color: string = 'red',
-    physics?: WorldEntityOptions,
+    private physicsOptions: WorldEntityOptions,
   ) {
     const thisId = id + '-ball'
-    super(thisId)
+    super(thisId, stage)
+    this.stage = stage
     this.id = thisId
     this.physics = new WorldEntity(this.id, {
-      ...physics,
+      ...this.physicsOptions,
       mass: 1,
-      velocity: new Vector(0, 0),
-      acceleration: new Vector(0, 0.01),
+      velocity: new Vector(0, -1),
+      acceleration: new Vector(0, 0.005),
     })
   }
 
-  render(stage: Stage) {
-    ctx.translate(stage.origin.x, stage.origin.y)
+  loop(timePassed: number): void {
+    this.physics.update(timePassed)
+    this.render()
+    if (this.physics.center.y >= 100 - this.radius * 2) {
+      this.destroy()
+    }
+  }
+
+  render() {
+    ctx.translate(this.stage.origin.x, this.stage.origin.y)
     ctx.beginPath()
     ctx.arc(
-      this.physics.center.x * stage.xUnit,
-      this.physics.center.y * stage.yUnit,
-      this.radius * stage.xUnit,
+      this.physics.center.x * this.stage.xUnit,
+      this.physics.center.y * this.stage.yUnit,
+      this.radius * this.stage.xUnit,
       0,
       360,
     )

@@ -12,5 +12,5 @@ export function boot() {
   document.body.appendChild(canvas)
   renderTree.children.push(stage)
   renderTree.children.push(fps)
-  loop()
+  loop(Date.now())
 }
