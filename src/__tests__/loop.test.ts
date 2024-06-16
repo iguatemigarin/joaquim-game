@@ -26,14 +26,14 @@ describe('loop', () => {
 
   it('should call resetCanvas and RenderTree.render if more than 1ms has passed', () => {
     const lastUpdate = Date.now() - 2;
-    loop(lastUpdate);
+    loop(lastUpdate, renderTree);
     expect(resetCanvas).toHaveBeenCalled();
     expect(renderTree.render).toHaveBeenCalledWith(expect.any(Number));
   });
 
   it('should not call resetCanvas and RenderTree.render if less than 1ms has passed', () => {
     const lastUpdate = Date.now();
-    loop(lastUpdate);
+    loop(lastUpdate, renderTree);
     expect(resetCanvas).not.toHaveBeenCalled();
     expect(renderTree.render).not.toHaveBeenCalled();
   });
@@ -41,7 +41,7 @@ describe('loop', () => {
   it('should call requestAnimationFrame recursively', () => {
     const lastUpdate = Date.now() - 2;
     const requestAnimationFrameSpy = jest.spyOn(global, 'requestAnimationFrame');
-    loop(lastUpdate);
+    loop(lastUpdate, renderTree);
     expect(requestAnimationFrameSpy).toHaveBeenCalled();
   });
 });
