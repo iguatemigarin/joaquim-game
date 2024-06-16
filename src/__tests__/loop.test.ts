@@ -1,15 +1,15 @@
 import { loop } from '../render/loop';
 import { resetCanvas } from '../render/canvas';
-import { renderTree } from '../render/render-tree';
+import { RenderTree } from '../render/render-tree';
 
 jest.mock('../render/canvas', () => ({
   resetCanvas: jest.fn(),
 }));
 
 jest.mock('../render/render-tree', () => ({
-  renderTree: {
+  RenderTree: jest.fn().mockImplementation(() => ({
     render: jest.fn(),
-  },
+  })),
 }));
 
 describe('loop', () => {
@@ -21,15 +21,17 @@ describe('loop', () => {
     });
   });
 
-  it('should call resetCanvas and renderTree.render if more than 1ms has passed', () => {
+  it('should call resetCanvas and RenderTree.render if more than 1ms has passed', () => {
     const lastUpdate = Date.now() - 2;
+    const renderTree = new RenderTree('Test renderTree');
     loop(lastUpdate);
     expect(resetCanvas).toHaveBeenCalled();
     expect(renderTree.render).toHaveBeenCalledWith(expect.any(Number));
   });
 
-  it('should not call resetCanvas and renderTree.render if less than 1ms has passed', () => {
+  it('should not call resetCanvas and RenderTree.render if less than 1ms has passed', () => {
     const lastUpdate = Date.now();
+    const renderTree = new RenderTree('Test renderTree');
     loop(lastUpdate);
     expect(resetCanvas).not.toHaveBeenCalled();
     expect(renderTree.render).not.toHaveBeenCalled();
