@@ -1,7 +1,7 @@
 import { Renderable } from './renderable'
 import { ctx } from './canvas'
 
-class RenderTree {
+export class RenderTree {
   constructor(
     public id: string,
     public children: Renderable[] = [],
@@ -15,5 +15,3 @@ class RenderTree {
     })
   }
 }
-
-export { RenderTree }
