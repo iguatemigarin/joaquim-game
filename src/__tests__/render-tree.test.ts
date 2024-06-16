@@ -1,5 +1,13 @@
 import { RenderTree } from '../render/render-tree';
 import { Renderable } from '../render/renderable';
+import { ctx } from '../render/canvas';
+
+jest.mock('../render/canvas', () => ({
+  ctx: {
+    translate: jest.fn(),
+    fillStyle: '',
+  },
+}));
 
 describe('RenderTree', () => {
   let renderTree: RenderTree;
@@ -21,13 +29,6 @@ describe('RenderTree', () => {
   });
 
   it('should set the fill style to black during render', () => {
-    const ctx = {
-      translate: jest.fn(),
-      fillStyle: '',
-    };
-
-    global.ctx = ctx as unknown as CanvasRenderingContext2D;
-
     renderTree.render(100);
 
     expect(ctx.fillStyle).toBe('black');
