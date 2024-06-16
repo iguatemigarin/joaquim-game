@@ -1,5 +1,5 @@
 import { resetCanvas } from './canvas'
-import { renderTree } from './render-tree'
+import { RenderTree } from './render-tree'
 
 export const loop = (lastUpdate: number) => {
   const timePassed = Date.now() - lastUpdate
@@ -10,6 +10,7 @@ export const loop = (lastUpdate: number) => {
     return
   }
   resetCanvas()
+  const renderTree = new RenderTree('Root renderTree')
   renderTree.render(timePassed)
 
   requestAnimationFrame(() => loop(Date.now()))
