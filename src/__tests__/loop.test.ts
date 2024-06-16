@@ -13,17 +13,19 @@ jest.mock('../render/render-tree', () => ({
 }));
 
 describe('loop', () => {
+  let renderTree: RenderTree;
+
   beforeEach(() => {
     jest.clearAllMocks();
     jest.spyOn(global, 'requestAnimationFrame').mockImplementation((cb) => {
       setTimeout(() => cb(0), 0);
       return 0;
     });
+    renderTree = new RenderTree('Test renderTree');
   });
 
   it('should call resetCanvas and RenderTree.render if more than 1ms has passed', () => {
     const lastUpdate = Date.now() - 2;
-    const renderTree = new RenderTree('Test renderTree');
     loop(lastUpdate);
     expect(resetCanvas).toHaveBeenCalled();
     expect(renderTree.render).toHaveBeenCalledWith(expect.any(Number));
@@ -31,7 +33,6 @@ describe('loop', () => {
 
   it('should not call resetCanvas and RenderTree.render if less than 1ms has passed', () => {
     const lastUpdate = Date.now();
-    const renderTree = new RenderTree('Test renderTree');
     loop(lastUpdate);
     expect(resetCanvas).not.toHaveBeenCalled();
     expect(renderTree.render).not.toHaveBeenCalled();
