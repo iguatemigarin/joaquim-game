@@ -1,5 +1,5 @@
-import { ctx } from '../render/canvas.ts'
-import { Renderable } from '../render/renderable.ts'
+import { ctx } from '../render/canvas'
+import { Renderable } from '../render/renderable'
 
 const UPDATE_FREQUENCY = 2 // in Hz
 
