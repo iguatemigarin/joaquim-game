@@ -16,4 +16,4 @@ class RenderTree {
   }
 }
 
-export const renderTree = new RenderTree('Root renderTree')
+export { RenderTree }
